@@ -1,36 +1,25 @@
-import React, { useContext } from 'react'
+import React, { useContext } from 'react';
 import { ethers } from 'ethers';
 import { Typography } from '@mui/material';
 
 import  {RideshareContext}  from '../../contexts/rideshareContext';
 function Start() {
-  const {connectWallet,getEthereumContract} =  useContext(RideshareContext);
+  const {connectWallet,getEthereumContract,getBookings,createNewBooking} =  useContext(RideshareContext);
   
-  const test = async ()=>{
-    const rideshareContract = getEthereumContract();
-    try{
-    await rideshareContract.createBooking("Rajesh","Salem","Mumbai");
-    //let a = await rideshareContract.getBookingCount();
-    rideshareContract.on("BookingCreated",(bookinglength)=>{
-      console.log("Booking Accepted",bookinglength.toNumber());   
-             
-    })
-    
-
+  const test = ()=>{
+    getBookings();
   }
 
-    catch(error){
-      console.log(error);
-    }
+  const createbooking = ()=>{
+    createNewBooking('Nithin Kumar M R','Salem','Erode',20);
   }
+
   const logContract = async ()=>{
     const rideshareContract = getEthereumContract();
     console.log(rideshareContract);
   }
 
-  const setWindowSize = ()=>{
-    window.resizeTo(400,400);
-  }
+  
   const logBookingCount =async ()=>{
     try{
     const rideshareContract = getEthereumContract();
@@ -45,25 +34,29 @@ function Start() {
   return (
     <div>
         <button onClick={test} >
-          Click me to log the details
-        </button>
+          Click me to get booking details
+        </button><br/>
+        
+        <button onClick={createbooking} >
+          Click me to CREATE A BOOKING.. HOPEFULLY
+        </button><br/>
+        
+
         <button onClick={connectWallet}>
           Click me to connect
-        </button>
+        </button><br/>
         
         <button onClick={logContract}>
           Click me to Log contract
-        </button>
+        </button><br/>
         
         <button onClick={logBookingCount}>
           Click me to get Booking count
-        </button>
-        <button onClick={setWindowSize}>
-          Click me to resize window
-        </button>
+        </button><br/>
+        
+        
     </div>
-    
-  )
+  );
 }
 
 export default Start;
