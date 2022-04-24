@@ -18,7 +18,7 @@ function Map({route,isOntrip}) {
   const directions =useRef(null);
   const [lng, setLng] = useState(78.1460);
   const [lat, setLat] = useState(11.6643);
-  const [zoom, setZoom] = useState(9);
+  const [zoom, setZoom] = useState(12);
  
   //rideshare context
   const {connectWallet,getEthereumContract,createNewBooking,getBlocknumber} =  useContext(RideshareContext);
@@ -45,8 +45,8 @@ function Map({route,isOntrip}) {
     if (map.current) return; // initialize map only once
     map.current = new mapboxgl.Map({
     container: mapContainer.current,
-   // style: 'mapbox://styles/mapbox/streets-v11',
-    style: 'mapbox://styles/nithinraj1106/cl24jsrrg000314l9g2eosoz2',
+    style: 'mapbox://styles/mapbox/streets-v11',
+    //style: 'mapbox://styles/nithinraj1106/cl24jsrrg000314l9g2eosoz2',
    center: [lng, lat],
     zoom: zoom
     });

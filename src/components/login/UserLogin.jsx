@@ -20,7 +20,6 @@ function UserLogin() {
 	const [otpInputLock,setOtpInputLock] =  useState(false);
 	
 	const setSession=()=>{
-		
 		//Todo : need to validate the inputs before the updation		
 		sessionStorage.setItem('username',input.name);		
 		sessionStorage.setItem('usernumber',input.number);

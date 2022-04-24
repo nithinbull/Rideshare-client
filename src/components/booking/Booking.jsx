@@ -116,7 +116,7 @@ function Booking({isOntrip, refreshbookings,viewOnMap}) {
                         {book.passengerInfo.split(";")[1]}
                       </TableCell>
                       <TableCell> 
-                        {(book.totalCost / (10**18)).toFixed(2)}<br/><br/>
+                        {(book.totalCost / (10**18)).toFixed(5)}<br/><br/>
                         <Button style={book.status === "completed" ? {} : { display: 'none' }} size="small" color="success" align="center" variant="outlined">Completed</Button>
                         <Button style={book.status === "cancelled" ? {} : { display: 'none' }} size="small" color="error" align="center" variant="outlined">Cancelled</Button>
                         <Button style={book.status === "ontrip" ? {} : { display: 'none' }} size="small" color="error" align="center" variant="outlined">OnTrip</Button>
@@ -129,54 +129,12 @@ function Booking({isOntrip, refreshbookings,viewOnMap}) {
             
             
 
-            { 
-            /*<TableRow> 
-              <TableCell> 
-                Salem,Bypass,TN<br/><br/>
-                Namakkal,Busstand
-              </TableCell>
-              <TableCell> 
-                Nithin Kumar M R<br/><br/>
-                +91 987654321
-              </TableCell>
-              <TableCell> 
-                0.2 Ether <br/><br/>
-                <Button style={usertype === "Rider" ? {} : { display: 'none' }} size="small" color="secondary" align="center" variant="outlined" >Cancel</Button>
-                <Button onClick={handleAccept} style={usertype === "Driver" ? {} : { display: 'none' }} size="small" color="secondary" align="center" variant="outlined" >Accept</Button>
-              </TableCell>
-              </TableRow>
-            */}
-            
+          
             
         </TableBody>
       </Table>
       
-      {/* <Fab size="medium"  onClick={handleClickOpen} style={usertype === "Rider" ?{ position: 'sticky', left:'90%',bottom:'9vh'}:{display:'none'}} color="primary" aria-label="add">
-        <AddIcon />
-      </Fab>
-
-      <Dialog open={open} fullWidth={true} scroll='body' >
-        <DialogTitle>New Booking</DialogTitle>
-        <DialogContent>
-            <DialogContentText>
-							To book a trip, please enter your locations...
-            </DialogContentText>
-                
-				    	<TextField size="small" label="From" margin="normal" required/>	<br/>	
-				    	<TextField size="small" label="To" margin="normal" required />			
-              <div className="distance-result">
-                <div> Distance: <span className="number-label">50</span><span className="unit">Km</span></div>
-                <div> Fee: <span className="number-label">0.01</span><span className="unit">/Km</span></div>
-                <div> Total Cost: <span className="number-label">0.50</span><span className="unit">Eth</span></div>
-              </div> 
-              <Address/>
-        </DialogContent>
-
-        <DialogActions>
-          <Button onClick={handleClose}>Close</Button>
-          <Button onClick={handleClose}>Submit</Button>
-        </DialogActions>
-      </Dialog> */}
+      
       
     </div>
   )

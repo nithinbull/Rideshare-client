@@ -62,7 +62,6 @@ export default function Home() {
           return
         }
 
-        
         //checking for the authentication status and restricting access to the page
         auth.onAuthStateChanged(user=>{
           if(user)
@@ -79,75 +78,79 @@ export default function Home() {
 
         //rideshare contract events subscription...
         const rideshareContract = getEthereumContract();
-        let startBlockNumber;
-        
-        getBlocknumber().then(result=>{startBlockNumber = result});
+        let startBlockNumber=0;
+        getBlocknumber().then(result=>startBlockNumber=result);
         
         rideshareContract.on("BookingCreated",(...args)=>{
-          getBlocknumber().then(result=>{startBlockNumber = result});
-          const event = args[args.length-1];
-          if(event.blockNumber <= startBlockNumber) return;
-          //console.log("Booking is created",parseInt(event.data));
-          console.log(event.data);
-          getBooking(parseInt(event.data)-1).then((result)=>{ 
-            if(sessionStorage.getItem('usernumber') === result.passengerInfo.split(';')[1])
-              setValue(0);
-              
-          })
-          if(sessionStorage.getItem('usertype') === "Driver")
-              refreshbookings.current();   
+
+          
+            const event = args[args.length-1];
+            //console.log(event.blockNumber + ' '+ startBlockNumber);
+            if(event.blockNumber <= startBlockNumber) return;
+            //console.log("checkpoint 1");
+            getBooking(parseInt(event.data)-1).then((result)=>{ 
+              if(sessionStorage.getItem('usernumber') === result.passengerInfo.split(';')[1])
+                setValue(0);  
+            })
+
+            if(sessionStorage.getItem('usertype') === "Driver")
+              refreshbookings.current(); 
+            
+            getBlocknumber().then(result=>startBlockNumber=result);
+            
+
         });
         
         rideshareContract.on("BookingCancelled",(...args)=>{
-          getBlocknumber().then(result=>{startBlockNumber = result});
-          const event = args[args.length-1];
-          if(event.blockNumber <= startBlockNumber) return;
-          //console.log("Booking has been cancelled",parseInt(event.data));
-         
-          getBooking(parseInt(event.data)).then((result)=>{ 
-            if(sessionStorage.getItem('usernumber') === result.passengerInfo.split(';')[1])
-              refreshbookings.current();
-          })
-          if(sessionStorage.getItem('usertype') === "Driver")
-              refreshbookings.current();   
+          
+              const event = args[args.length-1];
+              if(event.blockNumber <= startBlockNumber) return;
+              
+              getBooking(parseInt(event.data)).then((result)=>{ 
+                if(sessionStorage.getItem('usernumber') === result.passengerInfo.split(';')[1])
+                  refreshbookings.current();
+              })
+              if(sessionStorage.getItem('usertype') === "Driver")
+                  refreshbookings.current();   
+              getBlocknumber().then(result=>startBlockNumber=result);
         });
 
         rideshareContract.on("BookingAccepted",(...args)=>{
-          getBlocknumber().then(result=>{startBlockNumber = result});
-          const event = args[args.length-1];
-          if(event.blockNumber <= startBlockNumber) return;
           
-          getBooking(parseInt(event.data)).then((result)=>{ 
-            if(sessionStorage.getItem('usernumber') === result.passengerInfo.split(';')[1] || sessionStorage.getItem('usernumber') === result.driverInfo.split(';')[1])
-            { setValue(2);
-              setisOntrip(true);
-             if(sessionStorage.getItem('usertype') === "Driver") 
-              alert("You are on trip");
-             else
-              alert(`Your booking as been accepted by ${result.driverInfo.split(';')[0]}, You are on trip`);
-            }
-          })
-
+              const event = args[args.length-1];
+              if(event.blockNumber <= startBlockNumber) return;
+              
+              getBooking(parseInt(event.data)).then((result)=>{ 
+                if(sessionStorage.getItem('usernumber') === result.passengerInfo.split(';')[1] || sessionStorage.getItem('usernumber') === result.driverInfo.split(';')[1])
+                { setValue(2);
+                  setisOntrip(true);
+                if(sessionStorage.getItem('usertype') === "Driver") 
+                  alert("You are on trip");
+                else
+                  alert(`Your booking as been accepted by ${result.driverInfo.split(';')[0]}, You are on trip`);
+                }
+              })
+              getBlocknumber().then(result=>startBlockNumber=result);
         });
 
         rideshareContract.on("BookingCompleted",(...args)=>{
-          getBlocknumber().then(result=>{startBlockNumber = result});
-          const event = args[args.length-1];
-          if(event.blockNumber <= startBlockNumber) return;
           
-          getBooking(parseInt(event.data)).then((result)=>{ 
-            if(sessionStorage.getItem('usernumber') === result.passengerInfo.split(';')[1] || sessionStorage.getItem('usernumber') === result.driverInfo.split(';')[1])
-            {
-            setValue(0);
-            setisOntrip(false);
-            if(sessionStorage.getItem('usertype') === "Driver") 
-              alert("Your trip has been completed, and the funds will be transferred shortly to your ethereum account");
-            else
-              alert(`Your trip with ${result.driverInfo.split(';')[0]} is completed`);
-            }
-            });
-
-       
+              const event = args[args.length-1];
+              if(event.blockNumber <= startBlockNumber) return;
+              //console.log(event.blockNumber + ' '+ startBlockNumber);
+              getBooking(parseInt(event.data)).then((result)=>{ 
+                if(sessionStorage.getItem('usernumber') === result.passengerInfo.split(';')[1] || sessionStorage.getItem('usernumber') === result.driverInfo.split(';')[1])
+                {
+                  
+                  setValue(0);
+                  setisOntrip(false);
+                  if(sessionStorage.getItem('usertype') === "Driver") 
+                    alert("Your trip has been completed, and the funds will be transferred shortly to your ethereum account");
+                  else
+                    alert(`Your trip with ${result.driverInfo.split(';')[0]} is completed`);
+                }
+                });
+                getBlocknumber().then(result=>startBlockNumber=result);
         });
 
     },[]);

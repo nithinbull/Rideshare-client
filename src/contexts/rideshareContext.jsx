@@ -124,10 +124,10 @@ export const RideshareProvider = ({children})=>{
         
         try{
             
-            let bookDetail = await rideshareContract.getBooking(i-1);
+            let bookDetail = await rideshareContract.getBooking(i);
             
             let book = {
-                            id: i,
+                            id: i+1,
                             passengerAddress: bookDetail[0].toString(),
                             passengerInfo: bookDetail[1].toString(),
                             driverAddress: bookDetail[2].toString(),

@@ -1,25 +1,29 @@
-import React from "react";
+import React, { useState,useEffect } from "react";
 import {useNavigate} from "react-router-dom";
 import background from "../../img/img.jpg";
 import { useContext } from "react";
 import {Stack,Button } from "@mui/material";
 import { UserContext } from "../../contexts/userContext";
 import  {RideshareContext}  from '../../contexts/rideshareContext';
+import {auth} from '../../firebaseconfig';
+import { signOut } from "firebase/auth";
+import { id } from "ethers/lib/utils";
 function Landing() {
   const navigate = useNavigate();
-  //const {setUsertype} = useContext(UserContext);
+
   const {connectWallet,getEthereumContract} =  useContext(RideshareContext);
-  const navuserlogin =()=>{
   
+  const navuserlogin =()=>{
     sessionStorage.setItem("usertype",'Rider');
     navigate("/login");
   }
   
+  
   const navdriverlogin =()=>{
-    
     sessionStorage.setItem("usertype",'Driver');
     navigate("/login");
   }
+
   
   return (
     <div style={{ backgroundImage: `url(${background})` }}>
